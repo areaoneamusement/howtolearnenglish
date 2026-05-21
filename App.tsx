@@ -1,75 +1,99 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
+
 import { Topic } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
-import HomeScreen from './src/screens/HomeScreen';
-import TopicsScreen from './src/screens/TopicsScreen';
+import BottomNav, { TabName } from './src/components/BottomNav';
+
+import HomeMapScreen from './src/screens/HomeMapScreen';
+import ActivityScreen from './src/screens/ActivityScreen';
+import LeaderboardScreen from './src/screens/LeaderboardScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import GameScreen from './src/screens/GameScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 
-type Screen = 'home' | 'topics' | 'game' | 'results';
 type GameResult = { wordIndex: number; correct: boolean };
+type AppView = 'tabs' | 'game' | 'results';
 
 export default function App() {
   const { progress, loaded, recordStudySession } = useProgress();
-  const [screen, setScreen] = useState<Screen>('home');
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const [tab, setTab] = useState<TabName>('home');
+  const [view, setView] = useState<AppView>('tabs');
+  const [activeTopic, setActiveTopic] = useState<Topic | null>(null);
   const [lastResults, setLastResults] = useState<GameResult[]>([]);
-  const [lastXpGained, setLastXpGained] = useState(0);
+  const [lastXp, setLastXp] = useState(0);
 
   if (!loaded) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#6C63FF" />
+        <ActivityIndicator size="large" color="#7B2FBE" />
       </View>
     );
   }
 
   async function handleFinishGame(results: GameResult[]) {
-    if (!selectedTopic) return;
-    const xp = await recordStudySession(selectedTopic.id, results);
+    if (!activeTopic) return;
+    const xp = await recordStudySession(activeTopic.id, results);
     setLastResults(results);
-    setLastXpGained(xp);
-    setScreen('results');
+    setLastXp(xp);
+    setView('results');
   }
 
+  // Full-screen: game or results
+  if (view === 'game' && activeTopic) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <GameScreen
+          topic={activeTopic}
+          onFinish={handleFinishGame}
+          onBack={() => setView('tabs')}
+        />
+      </>
+    );
+  }
+
+  if (view === 'results' && activeTopic) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <ResultsScreen
+          topic={activeTopic}
+          results={lastResults}
+          xpGained={lastXp}
+          streak={progress.streak}
+          onRetry={() => setView('game')}
+          onHome={() => { setView('tabs'); setTab('home'); }}
+        />
+      </>
+    );
+  }
+
+  // Tab layout
   return (
     <>
       <StatusBar style="dark" />
-      {screen === 'home' && (
-        <HomeScreen
-          onStart={() => setScreen('topics')}
-          progress={progress}
-        />
-      )}
-      {screen === 'topics' && (
-        <TopicsScreen
-          onSelectTopic={(topic) => { setSelectedTopic(topic); setScreen('game'); }}
-          onBack={() => setScreen('home')}
-        />
-      )}
-      {screen === 'game' && selectedTopic && (
-        <GameScreen
-          topic={selectedTopic}
-          onFinish={handleFinishGame}
-          onBack={() => setScreen('topics')}
-        />
-      )}
-      {screen === 'results' && selectedTopic && (
-        <ResultsScreen
-          topic={selectedTopic}
-          results={lastResults}
-          xpGained={lastXpGained}
-          streak={progress.streak}
-          onRetry={() => setScreen('game')}
-          onHome={() => setScreen('home')}
-        />
-      )}
+      <View style={styles.flex}>
+        <View style={styles.flex}>
+          {tab === 'home' && (
+            <HomeMapScreen
+              onSelectTopic={(topic) => { setActiveTopic(topic); setView('game'); }}
+              streak={progress.streak}
+              xp={progress.xp}
+            />
+          )}
+          {tab === 'activity'     && <ActivityScreen />}
+          {tab === 'leaderboard'  && <LeaderboardScreen />}
+          {tab === 'profile'      && <ProfileScreen />}
+        </View>
+        <BottomNav active={tab} onPress={setTab} />
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8F9FF' },
+  flex: { flex: 1 },
 });
