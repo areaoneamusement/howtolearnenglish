@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useProgress } from '../hooks/useProgress';
 import { totalWordCount } from '../data/vocabulary';
+import OanMascot from '../components/OanMascot';
 
 export default function ProfileScreen() {
   const { progress } = useProgress();
@@ -35,7 +36,7 @@ export default function ProfileScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Mascot + identity */}
         <View style={styles.profileBox}>
-          <Image source={require('../../assets/mascot.png')} style={styles.mascot} />
+          <OanMascot size={110} />
           <Text style={styles.mascotName}>OĂN</Text>
           <View style={styles.levelBadge}>
             <Text style={styles.levelText}>⭐ Cấp độ {level}</Text>
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#7B2FBE', borderRadius: 20, padding: 28,
     alignItems: 'center', gap: 8,
   },
-  mascot: { width: 110, height: 130, resizeMode: 'contain' },
   mascotName: { fontSize: 28, fontWeight: '900', color: '#fff', letterSpacing: 2 },
   levelBadge: {
     backgroundColor: '#ffffff30', borderRadius: 16,

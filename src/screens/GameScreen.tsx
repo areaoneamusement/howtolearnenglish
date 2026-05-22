@@ -21,8 +21,10 @@ function SwipeCard({
 }: { word: Word; color: string; onAnswer: (correct: boolean) => void }) {
   const pan = useRef(new Animated.ValueXY()).current;
   const flipAnim = useRef(new Animated.Value(0)).current;
-  const [flipped, setFlipped] = useState(false);
-  const [answered, setAnswered] = useState(false);
+  // Dùng ref thay vì state để PanResponder closure luôn đọc giá trị mới nhất
+  const flippedRef = useRef(false);
+  const answeredRef = useRef(false);
+  const [flipped, setFlipped] = useState(false); // chỉ dùng để re-render UI
 
   const frontRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
   const backRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
@@ -32,13 +34,14 @@ function SwipeCard({
   const upOpacity = pan.y.interpolate({ inputRange: [-80, 0], outputRange: [1, 0], extrapolate: 'clamp' });
 
   function flip() {
+    flippedRef.current = true;
     setFlipped(true);
     Animated.spring(flipAnim, { toValue: 1, friction: 7, tension: 40, useNativeDriver: false }).start();
   }
 
   function exit(correct: boolean) {
-    if (answered) return;
-    setAnswered(true);
+    if (answeredRef.current) return;
+    answeredRef.current = true;
     const toX = correct ? SW * 1.5 : -SW * 1.5;
     Animated.timing(pan.x, { toValue: toX, duration: 220, useNativeDriver: false }).start(() => onAnswer(correct));
   }
@@ -46,14 +49,14 @@ function SwipeCard({
   const panResponder = useRef(PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (_, gs) => {
-      if (!flipped) {
+      if (!flippedRef.current) {
         if (gs.dy < 0) pan.y.setValue(gs.dy);
       } else {
         pan.x.setValue(gs.dx);
       }
     },
     onPanResponderRelease: (_, gs) => {
-      if (!flipped) {
+      if (!flippedRef.current) {
         if (gs.dy < -55) {
           Animated.spring(pan.y, { toValue: 0, useNativeDriver: false }).start();
           flip();

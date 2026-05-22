@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import OanMascot from '../components/OanMascot';
 
 export default function LeaderboardScreen() {
   return (
@@ -7,7 +8,7 @@ export default function LeaderboardScreen() {
         <Text style={styles.headerTitle}>🏆 Bảng xếp hạng</Text>
       </View>
       <View style={styles.content}>
-        <Image source={require('../../assets/mascot.png')} style={styles.mascot} />
+        <OanMascot size={120} />
         <Text style={styles.title}>Sắp ra mắt!</Text>
         <Text style={styles.desc}>
           Chế độ thách thức cộng đồng đang được phát triển.{'\n\n'}
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: 18, fontWeight: '800', color: '#2D3A8C' },
   content: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },
-  mascot: { width: 120, height: 140, resizeMode: 'contain', opacity: 0.85 },
   title: { fontSize: 26, fontWeight: '800', color: '#7B2FBE' },
   desc: { fontSize: 15, color: '#666', textAlign: 'left', lineHeight: 26, alignSelf: 'flex-start' },
   comingSoonBadge: {

@@ -1,10 +1,11 @@
 import { useRef, useEffect } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  Image, Dimensions, Animated, SafeAreaView,
+  Dimensions, Animated, SafeAreaView,
 } from 'react-native';
 import { topics, Topic } from '../data/vocabulary';
 import { useProgress } from '../hooks/useProgress';
+import OanMascot from '../components/OanMascot';
 
 const { width: SW } = Dimensions.get('window');
 
@@ -89,7 +90,7 @@ export default function HomeMapScreen({ onSelectTopic, streak, xp }: Props) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerBrand}>
-          <Image source={require('../../assets/mascot.png')} style={styles.headerMascot} />
+          <OanMascot size={38} />
           <View>
             <Text style={styles.appName}>Area ONE</Text>
             <Text style={styles.appSub}>Học Tiếng Anh</Text>
@@ -137,13 +138,13 @@ export default function HomeMapScreen({ onSelectTopic, streak, xp }: Props) {
         })}
 
         {/* OĂN mascot on current node */}
-        <Image
-          source={require('../../assets/mascot.png')}
-          style={[styles.mascotOnMap, {
-            left: mascotPos.cx - 28,
-            top: mascotPos.cy - NODE_R - 72,
-          }]}
-        />
+        <View style={{
+          position: 'absolute',
+          left: mascotPos.cx - 25,
+          top: mascotPos.cy - NODE_R - 72,
+        }}>
+          <OanMascot size={68} />
+        </View>
 
         {/* Nodes */}
         {nodePositions.map((pos, i) => {
@@ -218,7 +219,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
   },
   headerBrand: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  headerMascot: { width: 38, height: 38, resizeMode: 'contain' },
   appName: { fontSize: 17, fontWeight: '800', color: '#7B2FBE' },
   appSub: { fontSize: 11, color: '#AAA' },
   headerStats: { flexDirection: 'row', gap: 8 },
@@ -261,10 +261,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5, borderColor: '#fff',
   },
   progressBadgeText: { fontSize: 9, color: '#fff', fontWeight: '700' },
-
-  mascotOnMap: {
-    position: 'absolute', width: 56, height: 68, resizeMode: 'contain',
-  },
 
   nodeLabel: {
     position: 'absolute', width: 90, textAlign: 'center',
