@@ -33,7 +33,7 @@ function SwipeCard({
 
   function flip() {
     setFlipped(true);
-    Animated.spring(flipAnim, { toValue: 1, friction: 7, tension: 40, useNativeDriver: true }).start();
+    Animated.spring(flipAnim, { toValue: 1, friction: 7, tension: 40, useNativeDriver: false }).start();
   }
 
   function exit(correct: boolean) {
