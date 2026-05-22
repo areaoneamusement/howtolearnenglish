@@ -11,9 +11,132 @@ type Result = { wordIndex: number; correct: boolean };
 
 type Props = {
   topic: Topic;
+  topicIndex: number;
+  allTopics: Topic[];
+  skipReview?: boolean;
   onFinish: (results: Result[]) => void;
   onBack: () => void;
+  onFailReview: () => void;
 };
+
+// --- REVIEW QUIZ CARD ---
+function ReviewQuizCard({ word, pool, color, onAnswer }: {
+  word: Word; pool: Word[]; color: string; onAnswer: (correct: boolean) => void;
+}) {
+  const [options] = useState<string[]>(() => {
+    const wrong = pool
+      .filter(w => w.vietnamese !== word.vietnamese)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3)
+      .map(w => w.vietnamese);
+    return [word.vietnamese, ...wrong].sort(() => Math.random() - 0.5);
+  });
+  const [selected, setSelected] = useState<string | null>(null);
+
+  function pick(opt: string) {
+    if (selected) return;
+    setSelected(opt);
+    setTimeout(() => onAnswer(opt === word.vietnamese), 650);
+  }
+
+  return (
+    <View style={styles.quizContainer}>
+      <View style={[styles.quizQuestion, { borderTopColor: color }]}>
+        <Text style={styles.langLabel}>🔄 ÔN TẬP — Chọn nghĩa đúng</Text>
+        <Text style={styles.englishWord}>{word.english}</Text>
+        <Text style={styles.pronunciation}>/{word.pronunciation}/</Text>
+      </View>
+      <View style={styles.optionsList}>
+        {options.map((opt, i) => {
+          const isCorrect = opt === word.vietnamese;
+          const isSelected = opt === selected;
+          return (
+            <TouchableOpacity
+              key={i} onPress={() => pick(opt)} activeOpacity={0.8}
+              style={[
+                styles.option,
+                !selected && styles.optionDefault,
+                selected && isCorrect && styles.optionCorrect,
+                selected && isSelected && !isCorrect && styles.optionWrong,
+                selected && !isSelected && !isCorrect && styles.optionFaded,
+              ]}
+            >
+              <Text style={[
+                styles.optionText,
+                selected && isCorrect && styles.optionTextCorrect,
+                selected && isSelected && !isCorrect && styles.optionTextWrong,
+              ]}>{opt}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+// --- REVIEW ROUND ---
+function ReviewRound({ pool, topicColor, prevTopicName, onPass, onFail }: {
+  pool: Word[];
+  topicColor: string;
+  prevTopicName: string;
+  onPass: () => void;
+  onFail: () => void;
+}) {
+  const [questions] = useState<Word[]>(() =>
+    [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(3, pool.length))
+  );
+  const [currentQ, setCurrentQ] = useState(0);
+  const correctRef = useRef(0);
+  const [showResult, setShowResult] = useState(false);
+  const [passed, setPassed] = useState(false);
+
+  function handleAnswer(correct: boolean) {
+    if (correct) correctRef.current += 1;
+    if (currentQ + 1 >= questions.length) {
+      const p = correctRef.current >= 2;
+      setPassed(p);
+      setShowResult(true);
+      setTimeout(() => { if (p) onPass(); else onFail(); }, 1600);
+    } else {
+      setCurrentQ(q => q + 1);
+    }
+  }
+
+  if (showResult) {
+    return (
+      <View style={styles.reviewResult}>
+        <Text style={styles.reviewResultEmoji}>{passed ? '🎉' : '😅'}</Text>
+        <Text style={styles.reviewResultTitle}>
+          {passed ? 'Ôn tập tốt!' : 'Cần ôn lại...'}
+        </Text>
+        <Text style={styles.reviewResultScore}>
+          Đúng {correctRef.current}/{questions.length} câu
+        </Text>
+        <Text style={styles.reviewResultSub}>
+          {passed ? 'Tiếp tục học bài mới!' : `Hãy ôn lại "${prevTopicName}" nhé`}
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.reviewBanner}>
+        <Text style={styles.reviewBannerText}>
+          🔄 Ôn tập nhanh · Câu {currentQ + 1}/{questions.length}
+        </Text>
+        <Text style={styles.reviewBannerSub}>Đúng 2/3 để tiếp tục học</Text>
+      </View>
+      <ReviewQuizCard
+        key={currentQ}
+        word={questions[currentQ]}
+        pool={pool}
+        color={topicColor}
+        onAnswer={handleAnswer}
+      />
+    </View>
+  );
+}
 
 // --- SWIPE FLASHCARD ---
 function SwipeCard({
@@ -21,10 +144,9 @@ function SwipeCard({
 }: { word: Word; color: string; onAnswer: (correct: boolean) => void }) {
   const pan = useRef(new Animated.ValueXY()).current;
   const flipAnim = useRef(new Animated.Value(0)).current;
-  // Dùng ref thay vì state để PanResponder closure luôn đọc giá trị mới nhất
   const flippedRef = useRef(false);
   const answeredRef = useRef(false);
-  const [flipped, setFlipped] = useState(false); // chỉ dùng để re-render UI
+  const [flipped, setFlipped] = useState(false);
 
   const frontRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
   const backRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
@@ -73,7 +195,6 @@ function SwipeCard({
 
   return (
     <View style={styles.swipeArea} {...panResponder.panHandlers}>
-      {/* Hints */}
       {!flipped && (
         <Animated.View style={[styles.swipeHint, styles.swipeHintUp, { opacity: upOpacity }]}>
           <Text style={styles.swipeHintText}>👆 Vuốt lên để xem nghĩa</Text>
@@ -90,20 +211,16 @@ function SwipeCard({
         </>
       )}
 
-      {/* Card front */}
       <Animated.View style={[
         styles.card, { borderTopColor: color },
         { transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: cardTilt }, { perspective: 1000 }, { rotateY: frontRotate }] },
       ]}>
-        {/* Green overlay */}
         <Animated.View style={[styles.overlay, styles.overlayGreen, { opacity: greenOpacity }]}>
           <Text style={styles.overlayText}>✓</Text>
         </Animated.View>
-        {/* Red overlay */}
         <Animated.View style={[styles.overlay, styles.overlayRed, { opacity: redOpacity }]}>
           <Text style={styles.overlayText}>✗</Text>
         </Animated.View>
-
         <Text style={styles.langLabel}>TIẾNG ANH</Text>
         <Text style={styles.englishWord}>{word.english}</Text>
         <Text style={styles.pronunciation}>/{word.pronunciation}/</Text>
@@ -112,20 +229,16 @@ function SwipeCard({
         </View>
       </Animated.View>
 
-      {/* Card back */}
       <Animated.View style={[
         styles.card, styles.cardBack, { borderTopColor: color },
         { transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: cardTilt }, { perspective: 1000 }, { rotateY: backRotate }] },
       ]}>
-        {/* Green overlay */}
         <Animated.View style={[styles.overlay, styles.overlayGreen, { opacity: greenOpacity }]}>
           <Text style={styles.overlayText}>✓</Text>
         </Animated.View>
-        {/* Red overlay */}
         <Animated.View style={[styles.overlay, styles.overlayRed, { opacity: redOpacity }]}>
           <Text style={styles.overlayText}>✗</Text>
         </Animated.View>
-
         <Text style={styles.langLabel}>TIẾNG VIỆT</Text>
         <Text style={styles.vietnameseWord}>{word.vietnamese}</Text>
         <Text style={styles.englishSmall}>{word.english}</Text>
@@ -188,13 +301,16 @@ function QuizCard({ word, words, wordIndex, color, onAnswer }: {
   );
 }
 
-export default function GameScreen({ topic, onFinish, onBack }: Props) {
+export default function GameScreen({ topic, topicIndex, allTopics, skipReview, onFinish, onBack, onFailReview }: Props) {
+  const [reviewDone, setReviewDone] = useState(topicIndex === 0 || !!skipReview);
   const [mode, setMode] = useState<Mode | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<Result[]>([]);
   const slideAnim = useRef(new Animated.Value(0)).current;
 
   const total = topic.words.length;
+  const reviewPool = allTopics.slice(0, topicIndex).flatMap(t => t.words);
+  const prevTopicName = topicIndex > 0 ? allTopics[topicIndex - 1].name : '';
 
   const handleAnswer = useCallback((correct: boolean) => {
     const newResults = [...results, { wordIndex: currentIndex, correct }];
@@ -210,6 +326,29 @@ export default function GameScreen({ topic, onFinish, onBack }: Props) {
     });
   }, [results, currentIndex, total, onFinish]);
 
+  // --- REVIEW PHASE ---
+  if (!reviewDone) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={onBack}><Text style={styles.backText}>‹ Thoát</Text></TouchableOpacity>
+          <Text style={styles.headerTitle}>🔄 Ôn tập</Text>
+          <View style={{ width: 60 }} />
+        </View>
+        <View style={styles.cardWrapper}>
+          <ReviewRound
+            pool={reviewPool}
+            topicColor={topic.color}
+            prevTopicName={prevTopicName}
+            onPass={() => setReviewDone(true)}
+            onFail={onFailReview}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // --- MODE SELECT ---
   if (!mode) {
     return (
       <SafeAreaView style={styles.container}>
@@ -235,6 +374,7 @@ export default function GameScreen({ topic, onFinish, onBack }: Props) {
     );
   }
 
+  // --- PLAYING ---
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -271,10 +411,23 @@ const styles = StyleSheet.create({
   backText: { fontSize: 17, color: '#A527FF', fontWeight: '600', width: 60 },
   headerTitle: { fontSize: 16, fontWeight: '700', color: '#1274C6', flex: 1, textAlign: 'center' },
   counter: { fontSize: 14, color: '#888', width: 45, textAlign: 'right' },
-  progressBarBg: { height: 5, backgroundColor: '#E8EAFF' },
+  progressBarBg: { height: 5, backgroundColor: '#EDF4FF' },
   progressBarFill: { height: 5 },
-
   cardWrapper: { flex: 1, padding: 20 },
+
+  // Review
+  reviewBanner: {
+    backgroundColor: '#FFF8E1', borderRadius: 14, padding: 14,
+    marginBottom: 16, alignItems: 'center', gap: 4,
+    borderWidth: 1, borderColor: '#FFE082',
+  },
+  reviewBannerText: { fontSize: 15, fontWeight: '700', color: '#F9A825' },
+  reviewBannerSub: { fontSize: 12, color: '#BFA040' },
+  reviewResult: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  reviewResultEmoji: { fontSize: 72 },
+  reviewResultTitle: { fontSize: 26, fontWeight: '800', color: '#1274C6' },
+  reviewResultScore: { fontSize: 20, fontWeight: '700', color: '#444' },
+  reviewResultSub: { fontSize: 14, color: '#999', textAlign: 'center' },
 
   // Swipe card
   swipeArea: { flex: 1 },

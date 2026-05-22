@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { Topic } from './src/data/vocabulary';
+import { Topic, topics } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
 import BottomNav, { TabName } from './src/components/BottomNav';
 
@@ -24,6 +24,7 @@ export default function App() {
   const [activeTopic, setActiveTopic] = useState<Topic | null>(null);
   const [lastResults, setLastResults] = useState<GameResult[]>([]);
   const [lastXp, setLastXp] = useState(0);
+  const [skipReview, setSkipReview] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
@@ -39,12 +40,26 @@ export default function App() {
     );
   }
 
+  const topicIndex = activeTopic ? topics.findIndex(t => t.id === activeTopic.id) : 0;
+
   async function handleFinishGame(results: GameResult[]) {
     if (!activeTopic) return;
     const xp = await recordStudySession(activeTopic.id, results);
     setLastResults(results);
     setLastXp(xp);
+    setSkipReview(false);
     setView('results');
+  }
+
+  function handleFailReview() {
+    if (!activeTopic) return;
+    const idx = topics.findIndex(t => t.id === activeTopic.id);
+    if (idx > 0) {
+      setActiveTopic(topics[idx - 1]);
+      setSkipReview(true);
+    } else {
+      setView('tabs');
+    }
   }
 
   if (view === 'game' && activeTopic) {
@@ -53,8 +68,12 @@ export default function App() {
         <StatusBar style="dark" />
         <GameScreen
           topic={activeTopic}
+          topicIndex={topicIndex}
+          allTopics={topics}
+          skipReview={skipReview}
           onFinish={handleFinishGame}
-          onBack={() => setView('tabs')}
+          onBack={() => { setSkipReview(false); setView('tabs'); }}
+          onFailReview={handleFailReview}
         />
       </>
     );
@@ -83,7 +102,11 @@ export default function App() {
         <View style={styles.flex}>
           {tab === 'home' && (
             <HomeMapScreen
-              onSelectTopic={(topic) => { setActiveTopic(topic); setView('game'); }}
+              onSelectTopic={(topic) => {
+                setActiveTopic(topic);
+                setSkipReview(false);
+                setView('game');
+              }}
               streak={progress.streak}
               xp={progress.xp}
             />
