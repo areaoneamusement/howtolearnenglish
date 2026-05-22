@@ -29,16 +29,16 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FF' },
   header: {
     paddingHorizontal: 20, paddingVertical: 14,
-    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
+    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#2D3A8C' },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
   content: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },
-  title: { fontSize: 26, fontWeight: '800', color: '#7B2FBE' },
+  title: { fontSize: 26, fontWeight: '800', color: '#A527FF' },
   desc: { fontSize: 15, color: '#666', textAlign: 'left', lineHeight: 26, alignSelf: 'flex-start' },
   comingSoonBadge: {
-    backgroundColor: '#F5F0FF', borderRadius: 20,
+    backgroundColor: '#EDF5FF', borderRadius: 20,
     paddingHorizontal: 20, paddingVertical: 10,
-    borderWidth: 1.5, borderColor: '#D4B8FF',
+    borderWidth: 1.5, borderColor: '#90C5FF',
   },
-  comingSoonText: { fontSize: 14, color: '#7B2FBE', fontWeight: '700' },
+  comingSoonText: { fontSize: 14, color: '#A527FF', fontWeight: '700' },
 });

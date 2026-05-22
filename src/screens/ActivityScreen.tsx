@@ -102,19 +102,19 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FF' },
   header: {
     paddingHorizontal: 20, paddingVertical: 14,
-    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
+    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#2D3A8C' },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
   content: { padding: 16, gap: 16, paddingBottom: 30 },
 
   streakBox: {
-    backgroundColor: '#7B2FBE', borderRadius: 20, padding: 24,
+    backgroundColor: '#A527FF', borderRadius: 20, padding: 24,
     alignItems: 'center', gap: 4,
   },
   streakFlame: { fontSize: 48 },
   streakNum: { fontSize: 56, fontWeight: '900', color: '#fff', lineHeight: 60 },
-  streakLabel: { fontSize: 16, color: '#E0C8FF', fontWeight: '600' },
-  lastStudy: { fontSize: 12, color: '#C8A8FF', marginTop: 8 },
+  streakLabel: { fontSize: 16, color: '#93C8F5', fontWeight: '600' },
+  lastStudy: { fontSize: 12, color: '#6EB3EF', marginTop: 8 },
 
   card: {
     backgroundColor: '#fff', borderRadius: 16, padding: 18, gap: 14,
@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
   cardRow: { flexDirection: 'row', alignItems: 'center' },
   divider: { width: 1, height: 40, backgroundColor: '#F0F0F0', marginHorizontal: 8 },
   statItem: { flex: 1, alignItems: 'center', gap: 4 },
-  statBig: { fontSize: 24, fontWeight: '800', color: '#2D3A8C' },
+  statBig: { fontSize: 24, fontWeight: '800', color: '#1274C6' },
   statSub: { fontSize: 12, color: '#888' },
-  xpBarBg: { height: 8, backgroundColor: '#F0F1FF', borderRadius: 4, overflow: 'hidden' },
-  xpBarFill: { height: 8, backgroundColor: '#7B2FBE', borderRadius: 4 },
+  xpBarBg: { height: 8, backgroundColor: '#EDF4FF', borderRadius: 4, overflow: 'hidden' },
+  xpBarFill: { height: 8, backgroundColor: '#A527FF', borderRadius: 4 },
 
   topicRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   topicIcon: { fontSize: 22, width: 30, textAlign: 'center' },
@@ -136,6 +136,6 @@ const styles = StyleSheet.create({
   topicNameRow: { flexDirection: 'row', justifyContent: 'space-between' },
   topicName: { fontSize: 13, fontWeight: '600', color: '#333' },
   topicPct: { fontSize: 12, color: '#888' },
-  miniBarBg: { height: 5, backgroundColor: '#F0F1FF', borderRadius: 3, overflow: 'hidden' },
+  miniBarBg: { height: 5, backgroundColor: '#EDF4FF', borderRadius: 3, overflow: 'hidden' },
   miniBarFill: { height: 5, borderRadius: 3 },
 });

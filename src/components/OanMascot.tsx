@@ -68,7 +68,7 @@ export default function OanMascot({ size = 80 }: Props) {
 
 const styles = StyleSheet.create({
   visor: {
-    backgroundColor: '#7B2FBE',
+    backgroundColor: '#A527FF',
     alignItems: 'center', justifyContent: 'center',
     zIndex: 2,
   },
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   stripe: {
     width: '100%',
-    backgroundColor: '#4A90D9',
+    backgroundColor: '#1274C6',
   },
   base: {
     backgroundColor: '#E0E0E0',

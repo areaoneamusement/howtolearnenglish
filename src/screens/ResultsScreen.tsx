@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28, gap: 20,
   },
   emoji: { fontSize: 72 },
-  title: { fontSize: 26, fontWeight: '800', color: '#2D3A8C' },
+  title: { fontSize: 26, fontWeight: '800', color: '#1274C6' },
   topicName: { fontSize: 16, color: '#888' },
   scoreBox: {
     borderWidth: 3, borderRadius: 24,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
   },
   rewardBoxStreak: {},
-  rewardValue: { fontSize: 26, fontWeight: '800', color: '#2D3A8C' },
+  rewardValue: { fontSize: 26, fontWeight: '800', color: '#1274C6' },
   rewardLabel: { fontSize: 13, color: '#888' },
   breakdown: {
     flexDirection: 'row', flexWrap: 'wrap', gap: 6,

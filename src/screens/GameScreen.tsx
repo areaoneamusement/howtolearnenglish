@@ -266,10 +266,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingVertical: 12,
-    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
+    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  backText: { fontSize: 17, color: '#7B2FBE', fontWeight: '600', width: 60 },
-  headerTitle: { fontSize: 16, fontWeight: '700', color: '#2D3A8C', flex: 1, textAlign: 'center' },
+  backText: { fontSize: 17, color: '#A527FF', fontWeight: '600', width: 60 },
+  headerTitle: { fontSize: 16, fontWeight: '700', color: '#1274C6', flex: 1, textAlign: 'center' },
   counter: { fontSize: 14, color: '#888', width: 45, textAlign: 'right' },
   progressBarBg: { height: 5, backgroundColor: '#E8EAFF' },
   progressBarFill: { height: 5 },
@@ -296,9 +296,9 @@ const styles = StyleSheet.create({
   overlayRed: { backgroundColor: '#FF6B6B20' },
   overlayText: { fontSize: 80, opacity: 0.8 },
   langLabel: { fontSize: 11, color: '#CCC', letterSpacing: 2, fontWeight: '600' },
-  englishWord: { fontSize: 46, fontWeight: '800', color: '#2D3A8C', textAlign: 'center' },
-  pronunciation: { fontSize: 16, color: '#9B97DC', fontStyle: 'italic' },
-  tapHintBox: { marginTop: 16, paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#F0F1FF', borderRadius: 20 },
+  englishWord: { fontSize: 46, fontWeight: '800', color: '#1274C6', textAlign: 'center' },
+  pronunciation: { fontSize: 16, color: '#64ADEC', fontStyle: 'italic' },
+  tapHintBox: { marginTop: 16, paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#EDF4FF', borderRadius: 20 },
   tapHintText: { fontSize: 13, color: '#AAA' },
   vietnameseWord: { fontSize: 36, fontWeight: '800', color: '#00B894', textAlign: 'center' },
   englishSmall: { fontSize: 18, color: '#AAA' },
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   swipeHintUp: { top: -36, alignSelf: 'center', width: '100%' },
   swipeHintLeft: { left: -10, top: '40%' },
   swipeHintRight: { right: -10, top: '40%' },
-  swipeHintText: { fontSize: 14, fontWeight: '700', color: '#7B2FBE' },
+  swipeHintText: { fontSize: 14, fontWeight: '700', color: '#A527FF' },
 
   // Quiz
   quizContainer: { flex: 1, gap: 16 },
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
 
   // Mode select
   modeScreen: { flex: 1, padding: 24, justifyContent: 'center', gap: 20 },
-  modeTitle: { fontSize: 22, fontWeight: '800', color: '#2D3A8C', textAlign: 'center', marginBottom: 8 },
+  modeTitle: { fontSize: 22, fontWeight: '800', color: '#1274C6', textAlign: 'center', marginBottom: 8 },
   modeCard: {
     backgroundColor: '#fff', borderRadius: 20, padding: 24,
     alignItems: 'center', gap: 8, borderWidth: 2,
@@ -340,6 +340,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08, shadowRadius: 12, elevation: 4,
   },
   modeIcon: { fontSize: 40 },
-  modeName: { fontSize: 20, fontWeight: '800', color: '#2D3A8C' },
+  modeName: { fontSize: 20, fontWeight: '800', color: '#1274C6' },
   modeDesc: { fontSize: 13, color: '#888', textAlign: 'center' },
 });

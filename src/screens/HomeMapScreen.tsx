@@ -216,18 +216,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingVertical: 10,
     backgroundColor: '#fff',
-    borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
+    borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
   headerBrand: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  appName: { fontSize: 17, fontWeight: '800', color: '#7B2FBE' },
+  appName: { fontSize: 17, fontWeight: '800', color: '#A527FF' },
   appSub: { fontSize: 11, color: '#AAA' },
   headerStats: { flexDirection: 'row', gap: 8 },
   chip: {
-    backgroundColor: '#F5F0FF', borderRadius: 20,
+    backgroundColor: '#EDF5FF', borderRadius: 20,
     paddingHorizontal: 12, paddingVertical: 6,
-    borderWidth: 1, borderColor: '#E0D4F7',
+    borderWidth: 1, borderColor: '#B8D9F5',
   },
-  chipText: { fontSize: 14, fontWeight: '700', color: '#5A3D9A' },
+  chipText: { fontSize: 14, fontWeight: '700', color: '#1274C6' },
 
   // Map
   mapScroll: { flex: 1 },

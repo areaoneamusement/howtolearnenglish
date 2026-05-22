@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderTopWidth: 1,
-    borderTopColor: '#ECEDF8',
+    borderTopColor: '#DDE9F5',
     paddingBottom: 20,
     paddingTop: 10,
     shadowColor: '#000',
@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
   icon: { fontSize: 24, opacity: 0.4 },
   iconActive: { opacity: 1 },
   label: { fontSize: 11, color: '#AAA', fontWeight: '500' },
-  labelActive: { color: '#7B2FBE', fontWeight: '700' },
+  labelActive: { color: '#A527FF', fontWeight: '700' },
   activeDot: {
     width: 4, height: 4, borderRadius: 2,
-    backgroundColor: '#7B2FBE', marginTop: 2,
+    backgroundColor: '#A527FF', marginTop: 2,
   },
 });

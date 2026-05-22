@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   logoBox: { alignItems: 'center', gap: 4 },
   flag: { fontSize: 64 },
-  title: { fontSize: 30, fontWeight: '800', color: '#2D3A8C', letterSpacing: -0.5 },
+  title: { fontSize: 30, fontWeight: '800', color: '#1274C6', letterSpacing: -0.5 },
   subtitle: { fontSize: 16, color: '#7B89C9' },
   statsRow: {
     flexDirection: 'row',
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
   statBox: { flex: 1, alignItems: 'center', gap: 4 },
   statBoxMiddle: {
     borderLeftWidth: 1, borderRightWidth: 1,
-    borderColor: '#ECEDF8',
+    borderColor: '#DDE9F5',
   },
-  statNum: { fontSize: 22, fontWeight: '800', color: '#2D3A8C' },
+  statNum: { fontSize: 22, fontWeight: '800', color: '#1274C6' },
   statLabel: { fontSize: 12, color: '#999' },
   xpSection: { gap: 6 },
   xpRow: { flexDirection: 'row', justifyContent: 'space-between' },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   progressTitle: { fontSize: 14, fontWeight: '600', color: '#444' },
   progressBarBg: {
-    height: 10, backgroundColor: '#F0F1FF',
+    height: 10, backgroundColor: '#EDF4FF',
     borderRadius: 5, overflow: 'hidden',
   },
   progressBarFill: {
