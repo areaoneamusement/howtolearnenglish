@@ -264,6 +264,12 @@ function SwipeCard({
         <Text style={styles.langLabel}>TIẾNG VIỆT</Text>
         <Text style={styles.vietnameseWord}>{word.vietnamese}</Text>
         <Text style={styles.englishSmall}>{word.english}</Text>
+        {word.example && (
+          <View style={styles.exampleBox}>
+            <Text style={styles.exampleEn}>"{word.example.en}"</Text>
+            <Text style={styles.exampleVi}>{word.example.vi}</Text>
+          </View>
+        )}
         <View style={styles.swipeInstructions}>
           <Text style={styles.swipeInstLeft}>← Chưa nhớ</Text>
           <Text style={styles.swipeInstRight}>Nhớ rồi →</Text>
@@ -492,7 +498,13 @@ const styles = StyleSheet.create({
   tapHintText: { fontSize: 13, color: '#AAA' },
   vietnameseWord: { fontSize: 36, fontWeight: '800', color: '#00B894', textAlign: 'center' },
   englishSmall: { fontSize: 18, color: '#AAA' },
-  swipeInstructions: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 16 },
+  exampleBox: {
+    backgroundColor: '#F8F4FF', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 10,
+    borderLeftWidth: 3, borderLeftColor: '#A527FF', gap: 4, width: '100%',
+  },
+  exampleEn: { fontSize: 13, color: '#555', fontStyle: 'italic', lineHeight: 18 },
+  exampleVi: { fontSize: 12, color: '#A527FF', fontWeight: '600' },
+  swipeInstructions: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 8 },
   swipeInstLeft: { fontSize: 13, color: '#FF6B6B', fontWeight: '600' },
   swipeInstRight: { fontSize: 13, color: '#00C896', fontWeight: '600' },
 
