@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.08, shadowRadius: 12, elevation: 5,
   },
-  scoreNumber: { fontSize: 60, fontWeight: '800', lineHeight: 68 },
+  scoreNumber: { fontSize: 60, fontFamily: 'BlancInline', lineHeight: 68 },
   scoreDetail: { fontSize: 15, color: '#888', marginTop: 4 },
   message: { fontSize: 16, color: '#555', textAlign: 'center', fontStyle: 'italic' },
   rewardRow: { flexDirection: 'row', gap: 12, width: '100%' },

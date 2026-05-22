@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 14,
     backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
+  headerTitle: { fontSize: 18, fontFamily: 'Nikoovers', color: '#1274C6' },
   content: { padding: 16, gap: 16, paddingBottom: 30 },
 
   streakBox: {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', gap: 4,
   },
   streakFlame: { fontSize: 48 },
-  streakNum: { fontSize: 56, fontWeight: '900', color: '#fff', lineHeight: 60 },
+  streakNum: { fontSize: 56, fontFamily: 'BlancInline', color: '#fff', lineHeight: 60 },
   streakLabel: { fontSize: 16, color: '#93C8F5', fontWeight: '600' },
   lastStudy: { fontSize: 12, color: '#6EB3EF', marginTop: 8 },
 

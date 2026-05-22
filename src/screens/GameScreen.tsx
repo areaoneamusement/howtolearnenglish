@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   overlayRed: { backgroundColor: '#FF6B6B20' },
   overlayText: { fontSize: 80, opacity: 0.8 },
   langLabel: { fontSize: 11, color: '#CCC', letterSpacing: 2, fontWeight: '600' },
-  englishWord: { fontSize: 46, fontWeight: '800', color: '#1274C6', textAlign: 'center' },
+  englishWord: { fontSize: 46, fontFamily: 'BlancInline', color: '#1274C6', textAlign: 'center' },
   pronunciation: { fontSize: 16, color: '#64ADEC', fontStyle: 'italic' },
   tapHintBox: { marginTop: 16, paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#EDF4FF', borderRadius: 20 },
   tapHintText: { fontSize: 13, color: '#AAA' },

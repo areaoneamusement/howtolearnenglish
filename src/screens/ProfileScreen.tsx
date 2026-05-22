@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 14,
     backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
+  headerTitle: { fontSize: 18, fontFamily: 'Nikoovers', color: '#1274C6' },
   content: { padding: 16, gap: 16, paddingBottom: 30 },
 
   profileBox: {
     backgroundColor: '#1274C6', borderRadius: 20, padding: 28,
     alignItems: 'center', gap: 8,
   },
-  mascotName: { fontSize: 28, fontWeight: '900', color: '#fff', letterSpacing: 2 },
+  mascotName: { fontSize: 32, fontFamily: 'Nikoovers', color: '#fff', letterSpacing: 2 },
   levelBadge: {
     backgroundColor: '#ffffff30', borderRadius: 16,
     paddingHorizontal: 16, paddingVertical: 6,

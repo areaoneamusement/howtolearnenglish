@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
 import { Topic } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
@@ -24,10 +25,16 @@ export default function App() {
   const [lastResults, setLastResults] = useState<GameResult[]>([]);
   const [lastXp, setLastXp] = useState(0);
 
-  if (!loaded) {
+  const [fontsLoaded] = useFonts({
+    Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
+    MontserratLight: require('./assets/fonts/MontserratLight.otf'),
+    BlancInline: require('./assets/fonts/BlancInline.ttf'),
+  });
+
+  if (!loaded || !fontsLoaded) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#7B2FBE" />
+        <ActivityIndicator size="large" color="#A527FF" />
       </View>
     );
   }
@@ -40,7 +47,6 @@ export default function App() {
     setView('results');
   }
 
-  // Full-screen: game or results
   if (view === 'game' && activeTopic) {
     return (
       <>
@@ -70,7 +76,6 @@ export default function App() {
     );
   }
 
-  // Tab layout
   return (
     <>
       <StatusBar style="dark" />

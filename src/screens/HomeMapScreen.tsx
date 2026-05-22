@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
   headerBrand: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  appName: { fontSize: 17, fontWeight: '800', color: '#A527FF' },
+  appName: { fontSize: 17, fontFamily: 'Nikoovers', color: '#A527FF' },
   appSub: { fontSize: 11, color: '#AAA' },
   headerStats: { flexDirection: 'row', gap: 8 },
   chip: {

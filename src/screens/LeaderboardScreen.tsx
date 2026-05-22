@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 14,
     backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
+  headerTitle: { fontSize: 18, fontFamily: 'Nikoovers', color: '#1274C6' },
   content: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 16 },
-  title: { fontSize: 26, fontWeight: '800', color: '#A527FF' },
-  desc: { fontSize: 15, color: '#666', textAlign: 'left', lineHeight: 26, alignSelf: 'flex-start' },
+  title: { fontSize: 26, fontFamily: 'Nikoovers', color: '#A527FF' },
+  desc: { fontSize: 15, fontFamily: 'MontserratLight', color: '#666', textAlign: 'left', lineHeight: 26, alignSelf: 'flex-start' },
   comingSoonBadge: {
     backgroundColor: '#EDF5FF', borderRadius: 20,
     paddingHorizontal: 20, paddingVertical: 10,
