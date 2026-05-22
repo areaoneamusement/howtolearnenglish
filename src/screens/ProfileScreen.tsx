@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FF' },
   header: {
     paddingHorizontal: 20, paddingVertical: 14,
-    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#ECEDF8',
+    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#DDE9F5',
   },
-  headerTitle: { fontSize: 18, fontWeight: '800', color: '#2D3A8C' },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#1274C6' },
   content: { padding: 16, gap: 16, paddingBottom: 30 },
 
   profileBox: {
-    backgroundColor: '#7B2FBE', borderRadius: 20, padding: 28,
+    backgroundColor: '#1274C6', borderRadius: 20, padding: 28,
     alignItems: 'center', gap: 8,
   },
   mascotName: { fontSize: 28, fontWeight: '900', color: '#fff', letterSpacing: 2 },
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
   },
-  statVal: { fontSize: 20, fontWeight: '800', color: '#2D3A8C' },
+  statVal: { fontSize: 20, fontWeight: '800', color: '#1274C6' },
   statLbl: { fontSize: 12, color: '#888' },
 
   card: {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06, shadowRadius: 8, elevation: 2,
   },
-  cardTitle: { fontSize: 15, fontWeight: '700', color: '#2D3A8C' },
+  cardTitle: { fontSize: 15, fontWeight: '700', color: '#1274C6' },
   cardText: { fontSize: 14, color: '#666', lineHeight: 22 },
   versionRow: { gap: 4, marginTop: 4 },
   versionText: { fontSize: 12, color: '#AAA' },
