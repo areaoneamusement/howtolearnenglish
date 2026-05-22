@@ -5,6 +5,7 @@ export type UserType = 'student' | 'banking' | 'business' | 'tourism';
 
 export type UserProfile = {
   userType: UserType;
+  displayName: string;
 };
 
 const PROFILE_KEY = '@htlenglish_profile';

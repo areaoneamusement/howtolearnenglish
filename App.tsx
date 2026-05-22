@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
+import { signInAnonymously } from 'firebase/auth';
 
 import { Topic, topics, studentTopics, bankingTopics, businessTopics, tourismTopics } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
 import { useProfile, UserType } from './src/hooks/useProfile';
+import { auth } from './src/services/firebase';
+import { syncUserScore } from './src/services/leaderboard';
 import BottomNav, { TabName } from './src/components/BottomNav';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 
@@ -28,6 +31,20 @@ export default function App() {
   const [lastResults, setLastResults] = useState<GameResult[]>([]);
   const [lastXp, setLastXp] = useState(0);
   const [skipReview, setSkipReview] = useState(false);
+  const [firebaseUid, setFirebaseUid] = useState<string | null>(null);
+
+  const [fontsLoaded] = useFonts({
+    Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
+    MontserratLight: require('./assets/fonts/MontserratLight.otf'),
+    BlancInline: require('./assets/fonts/BlancInline.ttf'),
+  });
+
+  // Đăng nhập Firebase ẩn danh — mỗi thiết bị có 1 UID duy nhất
+  useEffect(() => {
+    signInAnonymously(auth)
+      .then(cred => setFirebaseUid(cred.user.uid))
+      .catch(() => {}); // tiếp tục dùng app dù offline
+  }, []);
 
   const profileTopics = (() => {
     if (!profile) return topics;
@@ -38,12 +55,6 @@ export default function App() {
       : [];
     return [...topics, ...extra];
   })();
-
-  const [fontsLoaded] = useFonts({
-    Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
-    MontserratLight: require('./assets/fonts/MontserratLight.otf'),
-    BlancInline: require('./assets/fonts/BlancInline.ttf'),
-  });
 
   if (!loaded || !fontsLoaded || !profileLoaded) {
     return (
@@ -57,7 +68,11 @@ export default function App() {
     return (
       <>
         <StatusBar style="dark" />
-        <OnboardingScreen onDone={(userType: UserType) => saveProfile({ userType })} />
+        <OnboardingScreen
+          onDone={(userType: UserType, displayName: string) =>
+            saveProfile({ userType, displayName })
+          }
+        />
       </>
     );
   }
@@ -66,9 +81,22 @@ export default function App() {
 
   async function handleFinishGame(results: GameResult[]) {
     if (!activeTopic) return;
-    const xp = await recordStudySession(activeTopic.id, results);
+    const xpGained = await recordStudySession(activeTopic.id, results);
+    const newXp = progress.xp + xpGained;
+
+    // Sync điểm lên Firebase (không block nếu offline)
+    if (firebaseUid && profile) {
+      syncUserScore(
+        firebaseUid,
+        profile.displayName || 'Người học',
+        newXp,
+        progress.streak,
+        profile.userType,
+      ).catch(() => {});
+    }
+
     setLastResults(results);
-    setLastXp(xp);
+    setLastXp(xpGained);
     setSkipReview(false);
     setView('results');
   }
@@ -77,7 +105,7 @@ export default function App() {
     if (!activeTopic) return;
     const idx = profileTopics.findIndex(t => t.id === activeTopic.id);
     if (idx > 0) {
-      setActiveTopic(topics[idx - 1]);
+      setActiveTopic(profileTopics[idx - 1]);
       setSkipReview(true);
     } else {
       setView('tabs');
@@ -134,9 +162,9 @@ export default function App() {
               xp={progress.xp}
             />
           )}
-          {tab === 'activity'     && <ActivityScreen />}
-          {tab === 'leaderboard'  && <LeaderboardScreen />}
-          {tab === 'profile'      && <ProfileScreen />}
+          {tab === 'activity'    && <ActivityScreen />}
+          {tab === 'leaderboard' && <LeaderboardScreen currentUid={firebaseUid} />}
+          {tab === 'profile'     && <ProfileScreen />}
         </View>
         <BottomNav active={tab} onPress={setTab} />
       </View>
