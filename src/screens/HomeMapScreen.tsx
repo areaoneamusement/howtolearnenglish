@@ -75,7 +75,7 @@ export default function HomeMapScreen({ onSelectTopic, streak, xp }: Props) {
     const completed = stats.known / topic.words.length >= 0.7;
     const unlocked = i === 0 || (() => {
       const prev = getTopicStats(topics[i - 1].id, topics[i - 1].words.length);
-      return prev.known > 0;
+      return prev.known + prev.learning > 0;
     })();
     return { completed, unlocked, known: stats.known, total: topic.words.length };
   });
