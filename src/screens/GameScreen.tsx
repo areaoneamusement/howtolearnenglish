@@ -1,8 +1,14 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity, SafeAreaView,
   Animated, PanResponder, Dimensions,
 } from 'react-native';
+import * as Speech from 'expo-speech';
+
+function speak(text: string) {
+  Speech.stop();
+  Speech.speak(text, { language: 'en-US', rate: 0.85, pitch: 1.0 });
+}
 import { Topic, Word } from '../data/vocabulary';
 
 const { width: SW } = Dimensions.get('window');
@@ -33,6 +39,11 @@ function ReviewQuizCard({ word, pool, color, onAnswer }: {
   });
   const [selected, setSelected] = useState<string | null>(null);
 
+  useEffect(() => {
+    speak(word.english);
+    return () => { Speech.stop(); };
+  }, []);
+
   function pick(opt: string) {
     if (selected) return;
     setSelected(opt);
@@ -45,6 +56,9 @@ function ReviewQuizCard({ word, pool, color, onAnswer }: {
         <Text style={styles.langLabel}>🔄 ÔN TẬP — Chọn nghĩa đúng</Text>
         <Text style={styles.englishWord}>{word.english}</Text>
         <Text style={styles.pronunciation}>/{word.pronunciation}/</Text>
+        <TouchableOpacity style={styles.speakBtn} onPress={() => speak(word.english)}>
+          <Text style={styles.speakBtnText}>🔊 Nghe lại</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.optionsList}>
         {options.map((opt, i) => {
@@ -148,6 +162,11 @@ function SwipeCard({
   const answeredRef = useRef(false);
   const [flipped, setFlipped] = useState(false);
 
+  useEffect(() => {
+    speak(word.english);
+    return () => { Speech.stop(); };
+  }, []);
+
   const frontRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
   const backRotate = flipAnim.interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
   const cardTilt = pan.x.interpolate({ inputRange: [-150, 0, 150], outputRange: ['-12deg', '0deg', '12deg'], extrapolate: 'clamp' });
@@ -224,6 +243,9 @@ function SwipeCard({
         <Text style={styles.langLabel}>TIẾNG ANH</Text>
         <Text style={styles.englishWord}>{word.english}</Text>
         <Text style={styles.pronunciation}>/{word.pronunciation}/</Text>
+        <TouchableOpacity style={styles.speakBtn} onPress={() => speak(word.english)}>
+          <Text style={styles.speakBtnText}>🔊 Nghe lại</Text>
+        </TouchableOpacity>
         <View style={styles.tapHintBox}>
           <Text style={styles.tapHintText}>👆 Vuốt lên để xem nghĩa</Text>
         </View>
@@ -260,6 +282,11 @@ function QuizCard({ word, words, wordIndex, color, onAnswer }: {
   const options = [word.vietnamese, ...pool.map(w => w.vietnamese)].sort(() => Math.random() - 0.5);
   const [selected, setSelected] = useState<string | null>(null);
 
+  useEffect(() => {
+    speak(word.english);
+    return () => { Speech.stop(); };
+  }, []);
+
   function pick(opt: string) {
     if (selected) return;
     setSelected(opt);
@@ -272,6 +299,9 @@ function QuizCard({ word, words, wordIndex, color, onAnswer }: {
         <Text style={styles.langLabel}>TIẾNG ANH — Chọn nghĩa đúng</Text>
         <Text style={styles.englishWord}>{word.english}</Text>
         <Text style={styles.pronunciation}>/{word.pronunciation}/</Text>
+        <TouchableOpacity style={styles.speakBtn} onPress={() => speak(word.english)}>
+          <Text style={styles.speakBtnText}>🔊 Nghe lại</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.optionsList}>
         {options.map((opt, i) => {
@@ -451,7 +481,14 @@ const styles = StyleSheet.create({
   langLabel: { fontSize: 11, color: '#CCC', letterSpacing: 2, fontWeight: '600' },
   englishWord: { fontSize: 46, fontFamily: 'BlancInline', color: '#1274C6', textAlign: 'center' },
   pronunciation: { fontSize: 16, color: '#64ADEC', fontStyle: 'italic' },
-  tapHintBox: { marginTop: 16, paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#EDF4FF', borderRadius: 20 },
+  speakBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 6,
+    paddingHorizontal: 18, paddingVertical: 8,
+    backgroundColor: '#EDF5FF', borderRadius: 20,
+    borderWidth: 1, borderColor: '#B8D9F5',
+  },
+  speakBtnText: { fontSize: 14, color: '#1274C6', fontWeight: '600' },
+  tapHintBox: { marginTop: 8, paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#EDF4FF', borderRadius: 20 },
   tapHintText: { fontSize: 13, color: '#AAA' },
   vietnameseWord: { fontSize: 36, fontWeight: '800', color: '#00B894', textAlign: 'center' },
   englishSmall: { fontSize: 18, color: '#AAA' },
