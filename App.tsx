@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { Topic, topics } from './src/data/vocabulary';
+import { Topic, topics, studentTopics, bankingTopics, businessTopics, tourismTopics } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
+import { useProfile, UserType } from './src/hooks/useProfile';
 import BottomNav, { TabName } from './src/components/BottomNav';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 
 import HomeMapScreen from './src/screens/HomeMapScreen';
 import ActivityScreen from './src/screens/ActivityScreen';
@@ -19,6 +21,7 @@ type AppView = 'tabs' | 'game' | 'results';
 
 export default function App() {
   const { progress, loaded, recordStudySession } = useProgress();
+  const { profile, loaded: profileLoaded, saveProfile } = useProfile();
   const [tab, setTab] = useState<TabName>('home');
   const [view, setView] = useState<AppView>('tabs');
   const [activeTopic, setActiveTopic] = useState<Topic | null>(null);
@@ -26,13 +29,23 @@ export default function App() {
   const [lastXp, setLastXp] = useState(0);
   const [skipReview, setSkipReview] = useState(false);
 
+  const profileTopics = (() => {
+    if (!profile) return topics;
+    const extra = profile.userType === 'student' ? studentTopics
+      : profile.userType === 'banking'  ? bankingTopics
+      : profile.userType === 'business' ? businessTopics
+      : profile.userType === 'tourism'  ? tourismTopics
+      : [];
+    return [...topics, ...extra];
+  })();
+
   const [fontsLoaded] = useFonts({
     Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
     MontserratLight: require('./assets/fonts/MontserratLight.otf'),
     BlancInline: require('./assets/fonts/BlancInline.ttf'),
   });
 
-  if (!loaded || !fontsLoaded) {
+  if (!loaded || !fontsLoaded || !profileLoaded) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#A527FF" />
@@ -40,7 +53,16 @@ export default function App() {
     );
   }
 
-  const topicIndex = activeTopic ? topics.findIndex(t => t.id === activeTopic.id) : 0;
+  if (!profile) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <OnboardingScreen onDone={(userType: UserType) => saveProfile({ userType })} />
+      </>
+    );
+  }
+
+  const topicIndex = activeTopic ? profileTopics.findIndex(t => t.id === activeTopic.id) : 0;
 
   async function handleFinishGame(results: GameResult[]) {
     if (!activeTopic) return;
@@ -53,7 +75,7 @@ export default function App() {
 
   function handleFailReview() {
     if (!activeTopic) return;
-    const idx = topics.findIndex(t => t.id === activeTopic.id);
+    const idx = profileTopics.findIndex(t => t.id === activeTopic.id);
     if (idx > 0) {
       setActiveTopic(topics[idx - 1]);
       setSkipReview(true);
@@ -69,7 +91,7 @@ export default function App() {
         <GameScreen
           topic={activeTopic}
           topicIndex={topicIndex}
-          allTopics={topics}
+          allTopics={profileTopics}
           skipReview={skipReview}
           onFinish={handleFinishGame}
           onBack={() => { setSkipReview(false); setView('tabs'); }}
@@ -102,6 +124,7 @@ export default function App() {
         <View style={styles.flex}>
           {tab === 'home' && (
             <HomeMapScreen
+              topics={profileTopics}
               onSelectTopic={(topic) => {
                 setActiveTopic(topic);
                 setSkipReview(false);

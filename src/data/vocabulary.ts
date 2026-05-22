@@ -1,4 +1,5 @@
 export type Level = 'A1' | 'A2' | 'B1';
+export type TopicGroup = 'foundation' | 'student' | 'banking' | 'business' | 'tourism';
 
 export type Word = {
   english: string;
@@ -12,6 +13,7 @@ export type Topic = {
   name: string;
   icon: string;
   color: string;
+  group?: TopicGroup;
   words: Word[];
 };
 
@@ -443,6 +445,255 @@ export const topics: Topic[] = [
       { english: 'Try on', vietnamese: 'Thử (quần áo)', pronunciation: 'trai ɒn', level: 'A2' },
     ],
   },
+];
+
+// ─── STUDENT TOPICS ───────────────────────────────────────────────────────────
+export const studentTopics: Topic[] = [
+  {
+    id: 'academic',
+    name: 'Học thuật',
+    icon: '🎓',
+    color: '#6C63FF',
+    group: 'student',
+    words: [
+      { english: 'Lecture', vietnamese: 'Bài giảng', pronunciation: 'lek-tʃər', level: 'A2' },
+      { english: 'Assignment', vietnamese: 'Bài tập được giao', pronunciation: 'ə-sain-mənt', level: 'A2' },
+      { english: 'Deadline', vietnamese: 'Hạn chót', pronunciation: 'ded-lain', level: 'A2' },
+      { english: 'Thesis', vietnamese: 'Luận văn', pronunciation: 'θiː-sis', level: 'B1' },
+      { english: 'Grade', vietnamese: 'Điểm số', pronunciation: 'greid', level: 'A1' },
+      { english: 'Scholarship', vietnamese: 'Học bổng', pronunciation: 'skɒl-ər-ʃip', level: 'A2' },
+      { english: 'Dormitory', vietnamese: 'Ký túc xá', pronunciation: 'dɔːr-mi-tɔːr-i', level: 'A2' },
+      { english: 'Professor', vietnamese: 'Giáo sư', pronunciation: 'prə-fes-ər', level: 'A1' },
+      { english: 'Syllabus', vietnamese: 'Đề cương môn học', pronunciation: 'sil-ə-bəs', level: 'B1' },
+      { english: 'Semester', vietnamese: 'Học kỳ', pronunciation: 'si-mes-tər', level: 'A2' },
+      { english: 'Research', vietnamese: 'Nghiên cứu', pronunciation: 'ri-sɜːrtʃ', level: 'A2' },
+      { english: 'Essay', vietnamese: 'Bài luận', pronunciation: 'es-ei', level: 'A2' },
+      { english: 'Presentation', vietnamese: 'Bài thuyết trình', pronunciation: 'prez-ən-tei-ʃən', level: 'A2' },
+      { english: 'Tuition', vietnamese: 'Học phí', pronunciation: 'tjuː-iʃ-ən', level: 'A2' },
+      { english: 'Graduation', vietnamese: 'Tốt nghiệp', pronunciation: 'græd-ju-ei-ʃən', level: 'A2' },
+      { english: 'Internship', vietnamese: 'Thực tập', pronunciation: 'in-tɜːrn-ʃip', level: 'B1' },
+      { english: 'Campus', vietnamese: 'Khuôn viên trường', pronunciation: 'kæm-pəs', level: 'A2' },
+      { english: 'Enroll', vietnamese: 'Đăng ký học', pronunciation: 'in-roul', level: 'A2' },
+      { english: 'Certificate', vietnamese: 'Chứng chỉ', pronunciation: 'sər-tif-i-kət', level: 'A2' },
+      { english: 'Curriculum', vietnamese: 'Chương trình học', pronunciation: 'kə-rik-jə-ləm', level: 'B1' },
+    ],
+  },
+  {
+    id: 'study_skills',
+    name: 'Kỹ năng học',
+    icon: '📝',
+    color: '#A29BFE',
+    group: 'student',
+    words: [
+      { english: 'Note-taking', vietnamese: 'Ghi chú', pronunciation: 'nout-tei-king', level: 'A2' },
+      { english: 'Mind map', vietnamese: 'Sơ đồ tư duy', pronunciation: 'maind mæp', level: 'A2' },
+      { english: 'Highlight', vietnamese: 'Tô sáng / Đánh dấu', pronunciation: 'hai-lait', level: 'A1' },
+      { english: 'Summarize', vietnamese: 'Tóm tắt', pronunciation: 'sʌm-ə-raiz', level: 'A2' },
+      { english: 'Review', vietnamese: 'Ôn tập', pronunciation: 'ri-vjuː', level: 'A1' },
+      { english: 'Memorize', vietnamese: 'Ghi nhớ / Học thuộc', pronunciation: 'mem-ə-raiz', level: 'A2' },
+      { english: 'Concentrate', vietnamese: 'Tập trung', pronunciation: 'kɒn-sən-treit', level: 'A2' },
+      { english: 'Schedule', vietnamese: 'Lịch học / Thời khóa biểu', pronunciation: 'sked-juːl', level: 'A2' },
+      { english: 'Group study', vietnamese: 'Học nhóm', pronunciation: 'gruːp stʌd-i', level: 'A1' },
+      { english: 'Practice', vietnamese: 'Luyện tập', pronunciation: 'præk-tis', level: 'A1' },
+      { english: 'Understand', vietnamese: 'Hiểu', pronunciation: 'ʌn-dər-stænd', level: 'A1' },
+      { english: 'Question', vietnamese: 'Đặt câu hỏi', pronunciation: 'kwes-tʃən', level: 'A1' },
+      { english: 'Exam', vietnamese: 'Kỳ thi', pronunciation: 'ig-zæm', level: 'A1' },
+      { english: 'Pass', vietnamese: 'Qua môn', pronunciation: 'pɑːs', level: 'A1' },
+      { english: 'Fail', vietnamese: 'Trượt môn', pronunciation: 'feil', level: 'A1' },
+      { english: 'Improve', vietnamese: 'Cải thiện', pronunciation: 'im-pruːv', level: 'A2' },
+      { english: 'Goal', vietnamese: 'Mục tiêu', pronunciation: 'goul', level: 'A1' },
+      { english: 'Focus', vietnamese: 'Tập trung', pronunciation: 'fou-kəs', level: 'A2' },
+    ],
+  },
+];
+
+// ─── BANKING / FINANCE TOPICS ─────────────────────────────────────────────────
+export const bankingTopics: Topic[] = [
+  {
+    id: 'banking_basic',
+    name: 'Ngân hàng',
+    icon: '🏦',
+    color: '#00B4D8',
+    group: 'banking',
+    words: [
+      { english: 'Account', vietnamese: 'Tài khoản', pronunciation: 'ə-kaunt', level: 'A1' },
+      { english: 'Transfer', vietnamese: 'Chuyển khoản', pronunciation: 'træns-fɜːr', level: 'A2' },
+      { english: 'Deposit', vietnamese: 'Nộp tiền / Gửi tiền', pronunciation: 'di-pɒz-it', level: 'A2' },
+      { english: 'Withdrawal', vietnamese: 'Rút tiền', pronunciation: 'wið-drɔː-əl', level: 'A2' },
+      { english: 'Interest rate', vietnamese: 'Lãi suất', pronunciation: 'in-trəst reit', level: 'B1' },
+      { english: 'Loan', vietnamese: 'Khoản vay', pronunciation: 'loun', level: 'A2' },
+      { english: 'Mortgage', vietnamese: 'Vay thế chấp', pronunciation: 'mɔːr-gidʒ', level: 'B1' },
+      { english: 'Credit card', vietnamese: 'Thẻ tín dụng', pronunciation: 'kred-it kɑːrd', level: 'A2' },
+      { english: 'Balance', vietnamese: 'Số dư', pronunciation: 'bæl-əns', level: 'A2' },
+      { english: 'Statement', vietnamese: 'Sao kê tài khoản', pronunciation: 'steit-mənt', level: 'A2' },
+      { english: 'Savings', vietnamese: 'Tiết kiệm', pronunciation: 'seiv-ingz', level: 'A2' },
+      { english: 'Exchange rate', vietnamese: 'Tỷ giá hối đoái', pronunciation: 'iks-tʃeindʒ reit', level: 'B1' },
+      { english: 'Transaction', vietnamese: 'Giao dịch', pronunciation: 'træn-zæk-ʃən', level: 'A2' },
+      { english: 'Fee', vietnamese: 'Phí dịch vụ', pronunciation: 'fiː', level: 'A1' },
+      { english: 'PIN', vietnamese: 'Mã PIN', pronunciation: 'pin', level: 'A1' },
+      { english: 'ATM', vietnamese: 'Máy rút tiền tự động', pronunciation: 'ei tiː em', level: 'A1' },
+      { english: 'Branch', vietnamese: 'Chi nhánh ngân hàng', pronunciation: 'bræntʃ', level: 'A2' },
+      { english: 'Teller', vietnamese: 'Giao dịch viên', pronunciation: 'tel-ər', level: 'A2' },
+      { english: 'Online banking', vietnamese: 'Ngân hàng trực tuyến', pronunciation: 'ɒn-lain bæŋ-king', level: 'A2' },
+      { english: 'Payment', vietnamese: 'Thanh toán', pronunciation: 'pei-mənt', level: 'A1' },
+    ],
+  },
+  {
+    id: 'finance',
+    name: 'Tài chính',
+    icon: '📈',
+    color: '#0077B6',
+    group: 'banking',
+    words: [
+      { english: 'Investment', vietnamese: 'Đầu tư', pronunciation: 'in-vest-mənt', level: 'B1' },
+      { english: 'Portfolio', vietnamese: 'Danh mục đầu tư', pronunciation: 'pɔːrt-fou-li-ou', level: 'B1' },
+      { english: 'Stock', vietnamese: 'Cổ phiếu', pronunciation: 'stɒk', level: 'B1' },
+      { english: 'Dividend', vietnamese: 'Cổ tức', pronunciation: 'div-i-dend', level: 'B1' },
+      { english: 'Budget', vietnamese: 'Ngân sách', pronunciation: 'bʌdʒ-it', level: 'A2' },
+      { english: 'Revenue', vietnamese: 'Doanh thu', pronunciation: 'rev-ə-njuː', level: 'B1' },
+      { english: 'Profit', vietnamese: 'Lợi nhuận', pronunciation: 'prɒf-it', level: 'A2' },
+      { english: 'Expense', vietnamese: 'Chi phí', pronunciation: 'ik-spens', level: 'A2' },
+      { english: 'Tax', vietnamese: 'Thuế', pronunciation: 'tæks', level: 'A2' },
+      { english: 'Insurance', vietnamese: 'Bảo hiểm', pronunciation: 'in-ʃʊər-əns', level: 'A2' },
+      { english: 'Asset', vietnamese: 'Tài sản', pronunciation: 'æs-et', level: 'B1' },
+      { english: 'Liability', vietnamese: 'Nợ phải trả', pronunciation: 'lai-ə-bil-i-ti', level: 'B1' },
+      { english: 'Cash flow', vietnamese: 'Dòng tiền', pronunciation: 'kæʃ flou', level: 'B1' },
+      { english: 'Return', vietnamese: 'Lợi nhuận thu về', pronunciation: 'ri-tɜːrn', level: 'A2' },
+      { english: 'Risk', vietnamese: 'Rủi ro', pronunciation: 'risk', level: 'A2' },
+      { english: 'Capital', vietnamese: 'Vốn', pronunciation: 'kæp-i-təl', level: 'B1' },
+      { english: 'Inflation', vietnamese: 'Lạm phát', pronunciation: 'in-flei-ʃən', level: 'B1' },
+      { english: 'Forecast', vietnamese: 'Dự báo tài chính', pronunciation: 'fɔːr-kɑːst', level: 'B1' },
+    ],
+  },
+];
+
+// ─── BUSINESS / ENTERPRISE TOPICS ─────────────────────────────────────────────
+export const businessTopics: Topic[] = [
+  {
+    id: 'office',
+    name: 'Văn phòng',
+    icon: '💼',
+    color: '#E17055',
+    group: 'business',
+    words: [
+      { english: 'Meeting', vietnamese: 'Cuộc họp', pronunciation: 'miː-ting', level: 'A1' },
+      { english: 'Agenda', vietnamese: 'Chương trình họp', pronunciation: 'ə-dʒen-də', level: 'A2' },
+      { english: 'Minutes', vietnamese: 'Biên bản họp', pronunciation: 'min-its', level: 'B1' },
+      { english: 'Deadline', vietnamese: 'Hạn chót', pronunciation: 'ded-lain', level: 'A2' },
+      { english: 'Proposal', vietnamese: 'Đề xuất', pronunciation: 'prə-pou-zəl', level: 'B1' },
+      { english: 'Report', vietnamese: 'Báo cáo', pronunciation: 'ri-pɔːrt', level: 'A2' },
+      { english: 'Colleague', vietnamese: 'Đồng nghiệp', pronunciation: 'kɒl-iːg', level: 'A2' },
+      { english: 'Manager', vietnamese: 'Quản lý', pronunciation: 'mæn-ə-dʒər', level: 'A1' },
+      { english: 'Department', vietnamese: 'Phòng ban', pronunciation: 'di-pɑːrt-mənt', level: 'A2' },
+      { english: 'Overtime', vietnamese: 'Làm thêm giờ', pronunciation: 'ouv-ər-taim', level: 'A2' },
+      { english: 'Salary', vietnamese: 'Lương', pronunciation: 'sæl-ər-i', level: 'A2' },
+      { english: 'Contract', vietnamese: 'Hợp đồng', pronunciation: 'kɒn-trækt', level: 'A2' },
+      { english: 'Promotion', vietnamese: 'Thăng chức', pronunciation: 'prə-mou-ʃən', level: 'A2' },
+      { english: 'Resign', vietnamese: 'Từ chức / Nghỉ việc', pronunciation: 'ri-zain', level: 'A2' },
+      { english: 'Recruit', vietnamese: 'Tuyển dụng', pronunciation: 'ri-kruːt', level: 'B1' },
+      { english: 'Performance', vietnamese: 'Hiệu suất làm việc', pronunciation: 'pər-fɔːr-məns', level: 'B1' },
+      { english: 'Target', vietnamese: 'Mục tiêu / Chỉ tiêu', pronunciation: 'tɑːr-git', level: 'A2' },
+      { english: 'KPI', vietnamese: 'Chỉ số hiệu suất', pronunciation: 'kei piː ai', level: 'B1' },
+      { english: 'Teamwork', vietnamese: 'Làm việc nhóm', pronunciation: 'tiːm-wɜːrk', level: 'A2' },
+      { english: 'Leadership', vietnamese: 'Kỹ năng lãnh đạo', pronunciation: 'liː-dər-ʃip', level: 'B1' },
+    ],
+  },
+  {
+    id: 'work_comm',
+    name: 'Giao tiếp công việc',
+    icon: '📧',
+    color: '#FDCB6E',
+    group: 'business',
+    words: [
+      { english: 'Attached', vietnamese: 'Đính kèm', pronunciation: 'ə-tætʃt', level: 'A2' },
+      { english: 'Regarding', vietnamese: 'Về việc / Liên quan đến', pronunciation: 'ri-gɑːrd-ing', level: 'A2' },
+      { english: 'Follow up', vietnamese: 'Theo dõi / Nhắc lại', pronunciation: 'fɒl-ou ʌp', level: 'A2' },
+      { english: 'Sincerely', vietnamese: 'Trân trọng', pronunciation: 'sin-siər-li', level: 'A2' },
+      { english: 'Urgent', vietnamese: 'Khẩn cấp', pronunciation: 'ɜːr-dʒənt', level: 'A2' },
+      { english: 'Appointment', vietnamese: 'Cuộc hẹn', pronunciation: 'ə-pɔint-mənt', level: 'A2' },
+      { english: 'Negotiate', vietnamese: 'Đàm phán', pronunciation: 'ni-gou-ʃi-eit', level: 'B1' },
+      { english: 'Client', vietnamese: 'Khách hàng', pronunciation: 'klai-ənt', level: 'A2' },
+      { english: 'Vendor', vietnamese: 'Nhà cung cấp', pronunciation: 'ven-dər', level: 'B1' },
+      { english: 'Partnership', vietnamese: 'Quan hệ đối tác', pronunciation: 'pɑːrt-nər-ʃip', level: 'B1' },
+      { english: 'Invoice', vietnamese: 'Hóa đơn', pronunciation: 'in-vɔis', level: 'A2' },
+      { english: 'Quotation', vietnamese: 'Báo giá', pronunciation: 'kwou-tei-ʃən', level: 'B1' },
+      { english: 'Confirm', vietnamese: 'Xác nhận', pronunciation: 'kən-fɜːrm', level: 'A2' },
+      { english: 'Postpone', vietnamese: 'Hoãn lại', pronunciation: 'pous-poun', level: 'A2' },
+      { english: 'Update', vietnamese: 'Cập nhật thông tin', pronunciation: 'ʌp-deit', level: 'A1' },
+      { english: 'Feedback', vietnamese: 'Phản hồi', pronunciation: 'fiːd-bæk', level: 'A2' },
+      { english: 'Approve', vietnamese: 'Phê duyệt', pronunciation: 'ə-pruːv', level: 'A2' },
+      { english: 'Reject', vietnamese: 'Từ chối', pronunciation: 'ri-dʒekt', level: 'A2' },
+    ],
+  },
+];
+
+// ─── TOURISM / SERVICE TOPICS ─────────────────────────────────────────────────
+export const tourismTopics: Topic[] = [
+  {
+    id: 'hotel_travel',
+    name: 'Du lịch & Khách sạn',
+    icon: '✈️',
+    color: '#00CEC9',
+    group: 'tourism',
+    words: [
+      { english: 'Check-in', vietnamese: 'Nhận phòng / Làm thủ tục', pronunciation: 'tʃek in', level: 'A1' },
+      { english: 'Check-out', vietnamese: 'Trả phòng', pronunciation: 'tʃek aut', level: 'A1' },
+      { english: 'Reservation', vietnamese: 'Đặt trước', pronunciation: 'rez-ər-vei-ʃən', level: 'A2' },
+      { english: 'Room service', vietnamese: 'Phục vụ phòng', pronunciation: 'ruːm sɜːr-vis', level: 'A2' },
+      { english: 'Amenities', vietnamese: 'Tiện nghi', pronunciation: 'ə-men-i-tiz', level: 'B1' },
+      { english: 'Concierge', vietnamese: 'Nhân viên lễ tân cao cấp', pronunciation: 'kɒn-si-erʒ', level: 'B1' },
+      { english: 'Lobby', vietnamese: 'Sảnh khách sạn', pronunciation: 'lɒb-i', level: 'A2' },
+      { english: 'Baggage', vietnamese: 'Hành lý', pronunciation: 'bæg-idʒ', level: 'A2' },
+      { english: 'Passport', vietnamese: 'Hộ chiếu', pronunciation: 'pɑːs-pɔːrt', level: 'A1' },
+      { english: 'Visa', vietnamese: 'Thị thực', pronunciation: 'viː-zə', level: 'A1' },
+      { english: 'Departure', vietnamese: 'Khởi hành', pronunciation: 'di-pɑːr-tʃər', level: 'A2' },
+      { english: 'Arrival', vietnamese: 'Đến nơi', pronunciation: 'ə-raiv-əl', level: 'A2' },
+      { english: 'Itinerary', vietnamese: 'Lịch trình', pronunciation: 'ai-tin-ər-er-i', level: 'B1' },
+      { english: 'Souvenir', vietnamese: 'Quà lưu niệm', pronunciation: 'suː-və-niər', level: 'A2' },
+      { english: 'Tour guide', vietnamese: 'Hướng dẫn viên', pronunciation: 'tʊər gaid', level: 'A2' },
+      { english: 'Upgrade', vietnamese: 'Nâng cấp dịch vụ', pronunciation: 'ʌp-greid', level: 'A2' },
+      { english: 'Complaint', vietnamese: 'Khiếu nại', pronunciation: 'kəm-pleint', level: 'A2' },
+      { english: 'Sightseeing', vietnamese: 'Tham quan', pronunciation: 'sait-siː-ing', level: 'A2' },
+      { english: 'Currency', vietnamese: 'Ngoại tệ', pronunciation: 'kɜːr-ən-si', level: 'A2' },
+      { english: 'Customs', vietnamese: 'Hải quan', pronunciation: 'kʌs-təmz', level: 'A2' },
+    ],
+  },
+  {
+    id: 'restaurant_service',
+    name: 'Nhà hàng & Phục vụ',
+    icon: '🍽️',
+    color: '#FF7675',
+    group: 'tourism',
+    words: [
+      { english: 'Menu', vietnamese: 'Thực đơn', pronunciation: 'men-juː', level: 'A1' },
+      { english: 'Order', vietnamese: 'Gọi món', pronunciation: 'ɔːr-dər', level: 'A1' },
+      { english: 'Bill', vietnamese: 'Hóa đơn thanh toán', pronunciation: 'bil', level: 'A1' },
+      { english: 'Tip', vietnamese: 'Tiền boa', pronunciation: 'tip', level: 'A1' },
+      { english: 'Recommend', vietnamese: 'Gợi ý món', pronunciation: 'rek-ə-mend', level: 'A2' },
+      { english: 'Allergic', vietnamese: 'Dị ứng', pronunciation: 'ə-lɜːr-dʒik', level: 'A2' },
+      { english: 'Vegetarian', vietnamese: 'Ăn chay', pronunciation: 'vedʒ-i-teər-i-ən', level: 'A2' },
+      { english: 'Appetizer', vietnamese: 'Món khai vị', pronunciation: 'æp-ə-tai-zər', level: 'A2' },
+      { english: 'Main course', vietnamese: 'Món chính', pronunciation: 'mein kɔːrs', level: 'A2' },
+      { english: 'Dessert', vietnamese: 'Tráng miệng', pronunciation: 'di-zɜːrt', level: 'A1' },
+      { english: 'Take away', vietnamese: 'Mang về', pronunciation: 'teik ə-wei', level: 'A1' },
+      { english: 'Table for two', vietnamese: 'Bàn cho 2 người', pronunciation: 'tei-bəl fɔːr tuː', level: 'A1' },
+      { english: 'Customer service', vietnamese: 'Dịch vụ khách hàng', pronunciation: 'kʌs-tə-mər sɜːr-vis', level: 'A2' },
+      { english: 'Feedback', vietnamese: 'Phản hồi khách hàng', pronunciation: 'fiːd-bæk', level: 'A2' },
+      { english: 'Refill', vietnamese: 'Châm thêm (nước)', pronunciation: 'riː-fil', level: 'A2' },
+      { english: 'Serve', vietnamese: 'Phục vụ', pronunciation: 'sɜːrv', level: 'A2' },
+      { english: 'Complaint', vietnamese: 'Phàn nàn', pronunciation: 'kəm-pleint', level: 'A2' },
+      { english: 'Satisfied', vietnamese: 'Hài lòng', pronunciation: 'sæt-is-faid', level: 'A2' },
+    ],
+  },
+];
+
+// ─── ALL TOPICS ────────────────────────────────────────────────────────────────
+export const allTopics: Topic[] = [
+  ...topics,
+  ...studentTopics,
+  ...bankingTopics,
+  ...businessTopics,
+  ...tourismTopics,
 ];
 
 export const allWords = topics.flatMap(t => t.words);

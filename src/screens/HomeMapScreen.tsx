@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
   Dimensions, Animated, SafeAreaView,
 } from 'react-native';
-import { topics, Topic } from '../data/vocabulary';
+import { Topic } from '../data/vocabulary';
 import { useProgress } from '../hooks/useProgress';
 import OanMascot from '../components/OanMascot';
 
@@ -14,15 +14,7 @@ const NODE_D = NODE_R * 2;
 const V_GAP = 128;
 const H_OFF = 72;
 const PAD_TOP = 90;
-const MAP_HEIGHT = PAD_TOP + topics.length * V_GAP + 160;
-
-// Zigzag: center, right, center, left
 const X_PATTERN = [0, H_OFF, 0, -H_OFF];
-
-const nodePositions = topics.map((_, i) => ({
-  cx: SW / 2 + X_PATTERN[i % 4],
-  cy: PAD_TOP + i * V_GAP,
-}));
 
 function pathDots(x1: number, y1: number, x2: number, y2: number) {
   return [1, 2, 3].map(i => ({
@@ -62,13 +54,20 @@ function PulsingRing({ size }: { size: number }) {
 }
 
 type Props = {
+  topics: Topic[];
   onSelectTopic: (topic: Topic) => void;
   streak: number;
   xp: number;
 };
 
-export default function HomeMapScreen({ onSelectTopic, streak, xp }: Props) {
+export default function HomeMapScreen({ topics, onSelectTopic, streak, xp }: Props) {
   const { getTopicStats } = useProgress();
+
+  const MAP_HEIGHT = PAD_TOP + topics.length * V_GAP + 160;
+  const nodePositions = topics.map((_, i) => ({
+    cx: SW / 2 + X_PATTERN[i % 4],
+    cy: PAD_TOP + i * V_GAP,
+  }));
 
   const topicStates = topics.map((topic, i) => {
     const stats = getTopicStats(topic.id, topic.words.length);
