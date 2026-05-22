@@ -164,7 +164,7 @@ export default function App() {
           )}
           {tab === 'activity'    && <ActivityScreen />}
           {tab === 'leaderboard' && <LeaderboardScreen currentUid={firebaseUid} />}
-          {tab === 'profile'     && <ProfileScreen />}
+          {tab === 'profile'     && <ProfileScreen firebaseUid={firebaseUid} />}
         </View>
         <BottomNav active={tab} onPress={setTab} />
       </View>
