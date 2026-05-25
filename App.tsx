@@ -16,6 +16,7 @@ import HomeMapScreen from './src/screens/HomeMapScreen';
 import ActivityScreen from './src/screens/ActivityScreen';
 import LeaderboardScreen from './src/screens/LeaderboardScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import FriendScreen from './src/screens/FriendScreen';
 import GameScreen from './src/screens/GameScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 
@@ -164,9 +165,10 @@ export default function App() {
           )}
           {tab === 'activity'    && <ActivityScreen />}
           {tab === 'leaderboard' && <LeaderboardScreen currentUid={firebaseUid} />}
+          {tab === 'friends'     && firebaseUid && <FriendScreen firebaseUid={firebaseUid} />}
           {tab === 'profile'     && <ProfileScreen firebaseUid={firebaseUid} />}
         </View>
-        <BottomNav active={tab} onPress={setTab} />
+        <BottomNav active={tab} onPress={setTab} friendBadge={false} />
       </View>
     </>
   );
