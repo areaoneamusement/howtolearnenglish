@@ -68,7 +68,6 @@ export default function FriendScreen({ firebaseUid }: Props) {
       friendships.flatMap(f => f.uids).filter(u => u !== firebaseUid)
     )];
     uids.forEach(async uid => {
-      if (friendNames[uid]) return;
       try {
         const snap = await getDoc(doc(db, 'leaderboard', uid));
         if (snap.exists()) {

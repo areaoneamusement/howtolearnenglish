@@ -20,8 +20,9 @@ export async function syncUserScore(
   streak: number,
   userType: string,
 ) {
+  const friendCode = uid.substring(0, 6).toUpperCase();
   const ref = doc(db, 'leaderboard', uid);
-  await setDoc(ref, { name, xp, streak, userType, updatedAt: serverTimestamp() }, { merge: true });
+  await setDoc(ref, { name, xp, streak, userType, friendCode, updatedAt: serverTimestamp() }, { merge: true });
 }
 
 export async function getTopPlayers(n = 20): Promise<LeaderboardEntry[]> {
