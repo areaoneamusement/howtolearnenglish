@@ -73,29 +73,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF6B6B', borderWidth: 2, borderColor: '#fff',
   },
 });
-
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#DDE9F5',
-    paddingBottom: 20,
-    paddingTop: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  tab: { flex: 1, alignItems: 'center', gap: 3 },
-  icon: { fontSize: 24, opacity: 0.4 },
-  iconActive: { opacity: 1 },
-  label: { fontSize: 11, color: '#AAA', fontWeight: '500' },
-  labelActive: { color: '#A527FF', fontWeight: '700' },
-  activeDot: {
-    width: 4, height: 4, borderRadius: 2,
-    backgroundColor: '#A527FF', marginTop: 2,
-  },
-});
