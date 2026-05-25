@@ -147,15 +147,21 @@ export async function answerChallenge(
   wordEnglish: string,
   currentStreak: number,
   currentUsedWords: string[],
+  lastStreakDate: string | null,
 ): Promise<void> {
+  const today = todayStr();
   const newUsedWords = [...currentUsedWords, wordEnglish].slice(-30);
-  const newStreak = correct ? currentStreak + 1 : 0;
+  // Chỉ tăng streak 1 lần mỗi ngày — tránh tăng liên tục trong cùng 1 ngày
+  const alreadyDoneToday = lastStreakDate === today;
+  const newStreak = correct
+    ? (alreadyDoneToday ? currentStreak : currentStreak + 1)
+    : 0;
 
   await updateDoc(doc(db, 'friendships', fid), {
     pendingChallenge: null,
     streak: newStreak,
-    lastStreakDate: todayStr(),
-    turnToAsk: answererUid, // now it's the answerer's turn
+    lastStreakDate: today,
+    turnToAsk: answererUid,
     usedWords: newUsedWords,
   });
 }

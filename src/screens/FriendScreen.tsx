@@ -45,6 +45,7 @@ export default function FriendScreen({ firebaseUid }: Props) {
   const [searching, setSearching] = useState(false);
   const [found, setFound] = useState<{ uid: string; name: string; userType: string } | null>(null);
   const [challengeModal, setChallengeModal] = useState<Friendship | null>(null);
+  const [challengeWord, setChallengeWord] = useState<ReturnType<typeof pickWord> | null>(null);
   const [answerModal, setAnswerModal] = useState<Friendship | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [answered, setAnswered] = useState(false);
@@ -128,12 +129,23 @@ export default function FriendScreen({ firebaseUid }: Props) {
 
   // ─── Send challenge ────────────────────────────────────────────────────────
 
+  function openChallenge(f: Friendship) {
+    setChallengeWord(pickWord(f.usedWords ?? []));
+    setChallengeModal(f);
+  }
+
+  function rerollWord() {
+    if (!challengeModal) return;
+    setChallengeWord(pickWord(challengeModal.usedWords ?? []));
+  }
+
   async function handleSendChallenge(f: Friendship) {
-    const word = pickWord(f.usedWords ?? []);
-    const options = buildOptions(word.vietnamese);
-    await sendChallenge(f.id, firebaseUid, getFriendUid(f), word, options);
+    if (!challengeWord) return;
+    const options = buildOptions(challengeWord.vietnamese);
+    await sendChallenge(f.id, firebaseUid, getFriendUid(f), challengeWord, options);
     setChallengeModal(null);
-    Alert.alert('Đã gửi! 🎯', `Câu hỏi về "${word.english}" đã đến bạn của bạn.`);
+    setChallengeWord(null);
+    Alert.alert('Đã gửi! 🎯', `Câu hỏi về "${challengeWord.english}" đã đến bạn của bạn.`);
   }
 
   // ─── Answer challenge ──────────────────────────────────────────────────────
@@ -154,6 +166,7 @@ export default function FriendScreen({ firebaseUid }: Props) {
         f.id, firebaseUid, correct,
         f.pendingChallenge!.word.english,
         f.streak, f.usedWords ?? [],
+        f.lastStreakDate,
       );
       setAnswerModal(null);
       if (correct) {
@@ -206,7 +219,7 @@ export default function FriendScreen({ firebaseUid }: Props) {
           </TouchableOpacity>
         )}
         {myTurnToAsk && (
-          <TouchableOpacity style={styles.btnAsk} onPress={() => setChallengeModal(f)}>
+          <TouchableOpacity style={styles.btnAsk} onPress={() => openChallenge(f)}>
             <Text style={styles.btnAskText}>📤 Hỏi bạn</Text>
           </TouchableOpacity>
         )}
@@ -358,36 +371,36 @@ export default function FriendScreen({ firebaseUid }: Props) {
       <Modal visible={!!challengeModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            {challengeModal && (() => {
-              const w = pickWord(challengeModal.usedWords ?? []);
-              return (
-                <>
-                  <Text style={styles.modalTitle}>📤 Gửi câu hỏi</Text>
-                  <Text style={styles.modalSub}>
-                    Đến: {friendNames[getFriendUid(challengeModal)] ?? '...'}
-                  </Text>
-                  <View style={styles.wordPreview}>
-                    <Text style={styles.wordPreviewEn}>{w.english}</Text>
-                    <Text style={styles.wordPreviewVi}>{w.vietnamese}</Text>
-                    <Text style={styles.wordPreviewPron}>/{w.pronunciation}/</Text>
-                  </View>
-                  <Text style={styles.modalHint}>
-                    Từ này sẽ được gửi dưới dạng câu hỏi trắc nghiệm
-                  </Text>
-                  <View style={styles.modalBtns}>
-                    <TouchableOpacity
-                      style={styles.sendReqBtn}
-                      onPress={() => handleSendChallenge(challengeModal)}
-                    >
-                      <Text style={styles.sendReqText}>Gửi câu hỏi này 🎯</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.cancelBtn} onPress={() => setChallengeModal(null)}>
-                      <Text style={styles.cancelBtnText}>Hủy</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              );
-            })()}
+            {challengeModal && challengeWord && (
+              <>
+                <Text style={styles.modalTitle}>📤 Gửi câu hỏi</Text>
+                <Text style={styles.modalSub}>
+                  Đến: {friendNames[getFriendUid(challengeModal)] ?? '...'}
+                </Text>
+                <View style={styles.wordPreview}>
+                  <Text style={styles.wordPreviewEn}>{challengeWord.english}</Text>
+                  <Text style={styles.wordPreviewVi}>{challengeWord.vietnamese}</Text>
+                  <Text style={styles.wordPreviewPron}>/{challengeWord.pronunciation}/</Text>
+                </View>
+                <TouchableOpacity style={styles.rerollBtn} onPress={rerollWord}>
+                  <Text style={styles.rerollBtnText}>🔄 Thử từ khác</Text>
+                </TouchableOpacity>
+                <Text style={styles.modalHint}>
+                  Từ này sẽ được gửi dưới dạng câu hỏi trắc nghiệm
+                </Text>
+                <View style={styles.modalBtns}>
+                  <TouchableOpacity
+                    style={styles.sendReqBtn}
+                    onPress={() => handleSendChallenge(challengeModal)}
+                  >
+                    <Text style={styles.sendReqText}>Gửi câu hỏi này 🎯</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.cancelBtn} onPress={() => { setChallengeModal(null); setChallengeWord(null); }}>
+                    <Text style={styles.cancelBtnText}>Hủy</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
           </View>
         </View>
       </Modal>
@@ -565,6 +578,13 @@ const styles = StyleSheet.create({
     padding: 14, alignItems: 'center',
   },
   cancelBtnText: { color: '#888', fontWeight: '600', fontSize: 15 },
+
+  rerollBtn: {
+    alignSelf: 'center',
+    paddingHorizontal: 18, paddingVertical: 8,
+    backgroundColor: '#F0F4FF', borderRadius: 20, borderWidth: 1, borderColor: '#DDE9F5',
+  },
+  rerollBtnText: { fontSize: 14, color: '#1274C6', fontWeight: '600' },
 
   wordPreview: {
     backgroundColor: '#EDF5FF', borderRadius: 16,
