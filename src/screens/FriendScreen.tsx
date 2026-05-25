@@ -180,9 +180,13 @@ export default function FriendScreen({ firebaseUid }: Props) {
     const name = friendNames[otherUid] ?? '...';
     const utype = friendTypes[otherUid] ?? 'student';
     const alive = isStreakAlive(f.lastStreakDate);
+    const todayDate = new Date().toISOString().split('T')[0];
+    const doneToday = f.lastStreakDate === todayDate;
     const myTurnToAsk = f.turnToAsk === firebaseUid && !f.pendingChallenge;
     const incomingChallenge = f.pendingChallenge?.toUid === firebaseUid;
-    const waitingForFriend = f.pendingChallenge?.toUid === otherUid;
+    const waitingForFriendAnswer = f.pendingChallenge?.toUid === otherUid;
+    // Bạn chưa hỏi hôm nay và không có câu hỏi nào đang chờ
+    const waitingForFriendToAsk = !f.pendingChallenge && !myTurnToAsk && !doneToday;
 
     return (
       <View key={f.id} style={styles.friendCard}>
@@ -206,12 +210,17 @@ export default function FriendScreen({ firebaseUid }: Props) {
             <Text style={styles.btnAskText}>📤 Hỏi bạn</Text>
           </TouchableOpacity>
         )}
-        {waitingForFriend && (
+        {waitingForFriendAnswer && (
           <View style={styles.btnWait}>
             <Text style={styles.btnWaitText}>⏳ Đang chờ</Text>
           </View>
         )}
-        {!incomingChallenge && !myTurnToAsk && !waitingForFriend && (
+        {waitingForFriendToAsk && (
+          <View style={styles.btnWait}>
+            <Text style={styles.btnWaitText}>⏳ Chờ bạn hỏi</Text>
+          </View>
+        )}
+        {doneToday && !incomingChallenge && !myTurnToAsk && !waitingForFriendAnswer && (
           <View style={styles.btnWait}>
             <Text style={styles.btnWaitText}>✅ Hôm nay xong</Text>
           </View>
