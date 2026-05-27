@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
-import { signInAnonymously } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Topic, topics, studentTopics, bankingTopics, businessTopics, tourismTopics } from './src/data/vocabulary';
 import { useProgress } from './src/hooks/useProgress';
@@ -10,6 +10,7 @@ import { useProfile, UserType } from './src/hooks/useProfile';
 import { auth } from './src/services/firebase';
 import { syncUserScore } from './src/services/leaderboard';
 import BottomNav, { TabName } from './src/components/BottomNav';
+import AuthScreen from './src/screens/AuthScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 
 import HomeMapScreen from './src/screens/HomeMapScreen';
@@ -33,6 +34,7 @@ export default function App() {
   const [lastXp, setLastXp] = useState(0);
   const [skipReview, setSkipReview] = useState(false);
   const [firebaseUid, setFirebaseUid] = useState<string | null>(null);
+  const [authReady, setAuthReady] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Nikoovers: require('./assets/fonts/Nikoovers.ttf'),
@@ -40,11 +42,13 @@ export default function App() {
     BlancInline: require('./assets/fonts/BlancInline.ttf'),
   });
 
-  // Đăng nhập Firebase ẩn danh — mỗi thiết bị có 1 UID duy nhất
+  // Lắng nghe trạng thái đăng nhập
   useEffect(() => {
-    signInAnonymously(auth)
-      .then(cred => setFirebaseUid(cred.user.uid))
-      .catch(() => {}); // tiếp tục dùng app dù offline
+    const unsub = onAuthStateChanged(auth, user => {
+      setFirebaseUid(user ? user.uid : null);
+      setAuthReady(true);
+    });
+    return unsub;
   }, []);
 
   const profileTopics = (() => {
@@ -57,7 +61,8 @@ export default function App() {
     return [...topics, ...extra];
   })();
 
-  if (!loaded || !fontsLoaded || !profileLoaded) {
+  // Chờ fonts + progress + profile + auth
+  if (!loaded || !fontsLoaded || !profileLoaded || !authReady) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#A527FF" />
@@ -65,6 +70,17 @@ export default function App() {
     );
   }
 
+  // Chưa đăng nhập → màn hình auth
+  if (!firebaseUid) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <AuthScreen />
+      </>
+    );
+  }
+
+  // Chưa chọn loại người dùng → onboarding
   if (!profile) {
     return (
       <>
@@ -85,7 +101,6 @@ export default function App() {
     const xpGained = await recordStudySession(activeTopic.id, results);
     const newXp = progress.xp + xpGained;
 
-    // Sync điểm lên Firebase (không block nếu offline)
     if (firebaseUid && profile) {
       syncUserScore(
         firebaseUid,
@@ -165,7 +180,7 @@ export default function App() {
           )}
           {tab === 'activity'    && <ActivityScreen />}
           {tab === 'leaderboard' && <LeaderboardScreen currentUid={firebaseUid} />}
-          {tab === 'friends'     && firebaseUid && <FriendScreen firebaseUid={firebaseUid} />}
+          {tab === 'friends'     && <FriendScreen firebaseUid={firebaseUid} />}
           {tab === 'profile'     && <ProfileScreen firebaseUid={firebaseUid} />}
         </View>
         <BottomNav active={tab} onPress={setTab} friendBadge={false} />
